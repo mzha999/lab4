@@ -97,15 +97,73 @@ For this lab, you're welcome to implemnet fewer tests than this if you're confid
 
 
 ## Exercise Six - Getting todos from the frontend
+After completing the first five exercises, we have a functional backend for our todo app. Now, we'll implement the frontend.
+
+Start by adding code at an appropriate location (probably within [AppContextProvider](./frontend/src/AppContextProvider.js)) which will `GET` the list of todo items from the backend, and display them somewhere. For this exercise, we can simply `console.log()` the todos, to make sure our code is working properly and that the frontend is talking to the backend.
 
 
 ## Exercise Seven - The app's UI
+For this exercise, create a React component that can dislay a single todo item. Exactly how you want the component to look is up to you, but it should be able to display the following information for a given todo item:
+
+- its title
+- its description, if any
+- its created date & time
+- its due date & time
+- its completed status
+
+It should also display a visual indication of some kind depending on whether the todo is:
+
+- completed
+- overdue (i.e. incomplete and the due date has already passed)
+- upcoming (i.e. incomplete and the due date is within one day)
+- incomplete (with a due date one day or more in the future)
+
+This could be a different color, or some additional text, or anything else you like.
+
+In preparation for a future exercise (Exercise Nine), you might wish to also include in the UI the ability to toggle a todo item's completed status, and to delete a todo item. You don't have to implement the logic behind these two points for this exercise though.
+
+Once you've created your "todo" component, update the app so that it renders a list of these todo components - one for each todo item.
 
 
 ## Exercise Eight - Testing the UI
+For this exercise, write unit tests for your todo component you completed in Exercise Seven.
+
+Test that the component is rendered correctly in each of the following cases:
+
+- No todo item is supplied
+- A completed todo item is supplied
+- An overdue todo item is supplied
+- An upcoming todo item is supplied
+- A todo item is suppplied which doesn't fit into one of the above categories
+
+You may use any of the testing strategies examined in lectures (i.e. shallow testing, snapshot testing, or deep UI examination).
+
+In your journals or the space below, write down your justification for choosing the testing strategy that you did.
+
+```
+Your answer here
+```
 
 
-## Exercise Nine - Adding and removing todos
+## Exercise Nine - Adding, updating, and removing todos
+In this exercise, we'll give the frontend the ability to modify our backend state - i.e. by adding, removing, and updating todos.
+
+To begin, if you've not already done so, modify the todo component you wrote in Exercise Seven to add the ability to toggle a todo's completed status, and to delete a todo.
+
+Next, add event handling to the "toggle" and "delete" UI elements above:
+
+- When the user tries to toggle an item's completed status on the UI, this should result in your "Update" REST service method from Exercise Four correctly being called.
+
+- When the user tries to delete an item on the UI, this should result in your "Delete" REST service method from Exercise Four correctly being called.
+
+In both cases, if a success response is received from the backend, the UI should be updated to match. Exactly how you do this is up to you - one possibility is to make use of the `reFetch()` function provided in the [useGet()](./frontend/src/hooks/useGet.js) hook.
+
+Next, modify the UI so that, underneath the list of todo items, there's a simple form allowing users to add new todo items. Users should be able to enter a new item's title, description, and due date. Users should only be able to actually add new todos if the title and due date are filled in (the description is optional).
+
+When the user has entered the info for a new todo item and clicks a button, your "Create" REST service method from Exercise Four should be correctly called. Then, when a successful response is received, the new todo should be displayed in the existing list (again, you may use `reFetch()` or any other method you like to achieve this).
 
 
 ## Exercise Ten - Updating the tests
+For this exercise, start by modifying the unit tests you wrote in Exercise Eight if necessary, such that any tests that broke because of your Exercise Nine implementation pass once again.
+
+Next, add unit tests which exercise the add / update / remove functionality introduced in Exercise Nine. The tests should make sure that the appropriate REST calls are made by your frontend in response to user input, and, when the responses to those REST requests are recieved, that the UI updates properly.
