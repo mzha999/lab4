@@ -4,6 +4,9 @@
 
 import mongoose from 'mongoose';
 import connectToDatabase from './db-connect';
+import { dummyTodos } from './random-todos';
+//import { createTodo } from './todos-dao';
+import { Todo } from './todos-schema';
 
 main();
 
@@ -26,9 +29,15 @@ async function main() {
 // TODO Exercise Two: Complete the clearDatabase() and addData() functions below.
 
 async function clearDatabase() {
-
+    const response = await Todo.deleteMany({});
+    console.log(`Deleted ${response.deletedCount} todos from database`);
 }
 
 async function addData() {
+    for (let dummyTodo of dummyTodos) {
+        const dbTodo = new Todo(dummyTodo);
+        await dbTodo.save();
+        console.log(`Added ${dummyTodo}`)
+    }
 
 }
